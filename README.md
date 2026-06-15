@@ -1,4 +1,4 @@
-# LLaMA-4 RAG Chatbot
+# ArivAI (RAG Chatbot)
 
 A high-performance **Retrieval-Augmented Generation (RAG)** chatbot powered by **LLaMA-4 Scout** (via Groq), **Qdrant Cloud** vector search, and **Tavily** live web search — wrapped in a sleek, responsive **Streamlit** UI with real-time streaming and performance analytics.
 
