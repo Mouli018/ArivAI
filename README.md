@@ -13,6 +13,7 @@ A high-performance **Retrieval-Augmented Generation (RAG)** chatbot powered by *
 - **🤖 Streaming LLaMA-4 Responses:** Real-time token-by-token generation via Groq SSE for an instant, engaging user experience.
 - **🌐 Intelligent Web Fallback:** Automatically detects if document context is insufficient and falls back to Tavily for live web search.
 - **🧠 Persistent Memory:** Uses Mem0 to remember user preferences and past interactions across sessions.
+- **🛡️ Integrated Guardrails:** In-built checks for Prompt Injection attempts and automatic PII/PHI redaction to enforce application safety.
 - **📊 Real-time Analytics Dashboard:** Built-in tracking for latency, context quality, faithfulness, and user satisfaction (👍/👎 feedback).
 - **🎨 Premium UI/UX:** Custom dark theme, glassmorphism components, page-level citations, and an expandable "View Sources" panel.
 
@@ -92,6 +93,7 @@ llama4/
 ├── document_utils.py    # Chunking, Qdrant integration, hybrid search, & re-ranking
 ├── llm_utils.py         # Groq LLM streaming & Tavily web fallback
 ├── analytics_utils.py   # Metrics tracking, faithfulness proxy, and feedback system
+├── guardrails.py        # Security checks, prompt injection detection & PII redaction
 ├── memory_utils.py      # Mem0 integration for long-term session memory
 ├── config.py            # Global configuration and tuning parameters
 ├── docs/                # Local document storage

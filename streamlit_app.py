@@ -45,6 +45,7 @@ from document_utils import (
 from llm_utils import is_recent_query, query_llama, query_llama_stream, tavily_fallback
 from memory_utils import add_memory, search_memory, clear_memory, memory_enabled
 from analytics_utils import log_query, render_analytics_panel
+from guardrails import evaluate_guardrails, redact_pii
 
 # ─────────────────────────────────────────────────────────────────────────────
 # CSS – Premium dark glassmorphism theme
@@ -525,10 +526,26 @@ placeholder = (
 )
 
 if prompt := st.chat_input(placeholder, key="chat_input"):
+    # ── Input Guardrails (PII & LLM Security Check) ──
+    prompt = redact_pii(prompt)
+    is_safe, violation_reason = evaluate_guardrails(prompt)
+
     # ── Show user message immediately ──
     st.session_state.messages.append({"role": "user", "content": prompt, "source": None})
     with st.chat_message("user", avatar="🧑"):
         st.markdown(prompt)
+
+    if not is_safe:
+        warning_msg = f"🚨 **Guardrail Alert:** I cannot fulfill this request as it violates safety policies ({violation_reason})."
+        with st.chat_message("assistant", avatar="🦙"):
+            st.markdown(warning_msg)
+            
+        st.session_state["_msg_counter"] += 1
+        st.session_state.messages.append(
+            {"role": "assistant", "content": warning_msg, "source": "guardrail",
+             "citations": [], "msg_id": st.session_state["_msg_counter"], "metrics_idx": -1}
+        )
+        st.stop()
 
     # ── Generate response ──
     with st.chat_message("assistant", avatar="🦙"):
