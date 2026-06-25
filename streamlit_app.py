@@ -503,16 +503,18 @@ else:
                 met_idx = msg.get("metrics_idx", None)
                 fb_col1, fb_col2, _ = st.columns([1, 1, 10])
                 current_fb = st.session_state.metrics[met_idx]["feedback"] if (
-                    met_idx is not None and met_idx < len(st.session_state.metrics)
+                    met_idx is not None
+                    and met_idx >= 0
+                    and met_idx < len(st.session_state.metrics)
                 ) else None
                 if fb_col1.button("👍", key=f"up_{mid}", help="Good answer",
                                   type="primary" if current_fb == "up" else "secondary"):
-                    if met_idx is not None and met_idx < len(st.session_state.metrics):
+                    if met_idx is not None and met_idx >= 0 and met_idx < len(st.session_state.metrics):
                         st.session_state.metrics[met_idx]["feedback"] = "up"
                     st.rerun()
                 if fb_col2.button("👎", key=f"dn_{mid}", help="Bad answer",
                                   type="primary" if current_fb == "down" else "secondary"):
-                    if met_idx is not None and met_idx < len(st.session_state.metrics):
+                    if met_idx is not None and met_idx >= 0 and met_idx < len(st.session_state.metrics):
                         st.session_state.metrics[met_idx]["feedback"] = "down"
                     st.rerun()
 
